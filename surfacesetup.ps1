@@ -1,9 +1,10 @@
-#@powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%systemdrive%\chocolatey\bin 
+# @powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%systemdrive%\chocolatey\bin 
+# Use --force if you need to reinstall and of the software
 
-# tall visualstudio2015community
+choco visualstudio2015community
 choco install xunit.visualstudio -y  
 choco install SpecFlow -y  
- choco install resharper -y   ##  LICESNSE REQUIRED
+choco install resharper -y   ##  LICESNSE REQUIRED
 
 # databases toold
 choco install mssqlserver2014express  -y  
