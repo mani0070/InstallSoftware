@@ -7,13 +7,13 @@ apt-get -y install mono-complete
 # register the vm with octopus as a new ssh connection
 apt-get -y install jq
 
-serverUrl="#{OctopusHostHeader}"
-apiKey="#{ApiKey}"
+serverUrl=$1
+apiKey=$2
 localIp=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
-environment="Microsoft Azure"
-accountId="usernamepassword-tentacle-auth"
+environment=$3
+accountId=$4
 fingerprint=$(ssh-keygen -E md5 -l -f /etc/ssh/ssh_host_rsa_key.pub | cut -c10-56)
-machineName="TeamCity"
+machineName=""
 
 environmentId=$(wget --header="X-Octopus-ApiKey: $apiKey" -O- ${serverUrl}/api/environments | jq ".Items[] | select(.Name==\"${environment}\") | .Id" -r)
 
@@ -21,10 +21,8 @@ machineId=$(wget --header="X-Octopus-ApiKey: $apiKey" --post-data "{\"Endpoint\"
 
 healthTaskId=$(wget --header="X-Octopus-ApiKey: $apiKey" --post-data "{\"Name\":\"Health\",\"Description\":\"Check $machineName health\",\"Arguments\":{\"Timeout\":\"00:05:00\",\"MachineIds\":[\"$machineId\"]}}" -O-  ${serverUrl}/api/tasks | jq ".Id" -r)
 
-
-
-sudo add-apt-repository "deb http://pub-repo.sematext.com/debian sematext main"
-wget -O- https://pub-repo.sematext.com/ubuntu/sematext.gpg.key | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install default-jdk -y
-sudo apt-get install spm-client -y
+#sudo add-apt-repository "deb http://pub-repo.sematext.com/debian sematext main"
+#wget -O- https://pub-repo.sematext.com/ubuntu/sematext.gpg.key | sudo apt-key add -
+#sudo apt-get update
+#sudo apt-get install default-jdk -y
+#sudo apt-get install spm-client -y
