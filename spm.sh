@@ -11,9 +11,9 @@ serverUrl=$1
 apiKey=$2
 localIp=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 environment=$3
-accountId=$4
+accountId="usernamepassword-228devspm"
 fingerprint=$(ssh-keygen -E md5 -l -f /etc/ssh/ssh_host_rsa_key.pub | cut -c10-56)
-machineName=""
+machineName="spmstandalone"
 
 environmentId=$(wget --header="X-Octopus-ApiKey: $apiKey" -O- ${serverUrl}/api/environments | jq ".Items[] | select(.Name==\"${environment}\") | .Id" -r)
 
