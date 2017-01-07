@@ -1,6 +1,7 @@
 #!/bin/bash
 apt-get -y update
 
+echo '127.0.0.1 servername' > /etc/hosts
 # install mono
 apt-get -y install mono-complete 
 
