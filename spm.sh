@@ -22,8 +22,8 @@ machineId=$(wget --header="X-Octopus-ApiKey: $apiKey" --post-data "{\"Endpoint\"
 
 healthTaskId=$(wget --header="X-Octopus-ApiKey: $apiKey" --post-data "{\"Name\":\"Health\",\"Description\":\"Check $machineName health\",\"Arguments\":{\"Timeout\":\"00:05:00\",\"MachineIds\":[\"$machineId\"]}}" -O-  ${serverUrl}/api/tasks | jq ".Id" -r)
 
-#sudo add-apt-repository "deb http://pub-repo.sematext.com/debian sematext main"
-#wget -O- https://pub-repo.sematext.com/ubuntu/sematext.gpg.key | sudo apt-key add -
-#sudo apt-get update
-#sudo apt-get install default-jdk -y
-#sudo apt-get install spm-client -y
+#add-apt-repository "deb http://pub-repo.sematext.com/debian sematext main"
+#wget -O- https://pub-repo.sematext.com/ubuntu/sematext.gpg.key | apt-key add -
+#apt-get update
+#apt-get install default-jdk -y
+#apt-get install spm-client -y
