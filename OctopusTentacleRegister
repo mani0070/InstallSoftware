@@ -1,0 +1,24 @@
+$apikey = ""
+$accountname = ""
+$envname = ""
+$serverurl = ""
+$hostipaddress = ""
+
+$headers = @{"X-Octopus-ApiKey"="$apikey"} 
+
+$environments = Invoke-RestMethod "$serverurl/api/environments/all" -Headers $headers -Method Get
+$theEnvironment = $environments | ? { $_.Name -eq $envname }
+
+$accounts = Invoke-RestMethod "$serverurl/api/accounts/all" -Headers $headers -Method Get
+$theAccount = $accounts | ? { $_.Name -eq $accountname }
+
+$discovered = Invoke-RestMethod "$serverurl/api/machines/discover?host=$hostipaddress&type=Ssh" -Headers $headers -Method Get
+
+$discovered.Roles += "contentspm"
+$discovered.EnvironmentIds += $theEnvironment.Id
+$discovered.Endpoint.AccountId = $theAccount.Id
+
+
+$discovered | ConvertTo-Json -Depth 10
+
+Invoke-RestMethod "$serverurl/api/machines" -Headers $headers -Method Post -Body ($discovered | ConvertTo-Json -Depth 10)
